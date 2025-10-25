@@ -1,0 +1,88 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+class Inventory {
+private:
+    int itemID;
+    char name[30];
+    int quantity;
+    float price;
+
+public:
+    void getData() {
+        cout << "\nEnter Item ID: ";
+        cin >> itemID;
+        cin.ignore(); // clear buffer
+        cout << "Enter Item Name: ";
+        cin.getline(name, 30);
+        cout << "Enter Quantity: ";
+        cin >> quantity;
+        cout << "Enter Price: ";
+        cin >> price;
+    }
+
+    void showData() {
+        cout << "\nItem ID: " << itemID;
+        cout << "\nItem Name: " << name;
+        cout << "\nQuantity: " << quantity;
+        cout << "\nPrice: " << price;
+        cout << "\n-----------------------------";
+    }
+};
+
+void writeRecord() {
+    ofstream file("inventory.dat", ios::binary | ios::app);
+    Inventory inv;
+    char choice = 'y';
+
+    while (choice == 'y' || choice == 'Y') {
+        inv.getData();
+        file.write((char*)&inv, sizeof(inv));
+        cout << "\nAdd another record? (y/n): ";
+        cin >> choice;
+    }
+
+    file.close();
+    cout << "\nData written to file successfully.\n";
+}
+
+void readRecords() {
+    ifstream file("inventory.dat", ios::binary);
+    Inventory inv;
+
+    if (!file) {
+        cout << "\nError: File could not be opened!\n";
+        return;
+    }
+
+    cout << "\n===== INVENTORY RECORDS =====\n";
+
+    while (file.read((char*)&inv, sizeof(inv))) {
+        inv.showData();
+    }
+
+    file.close();
+}
+
+int main() {
+    int choice;
+
+    do {
+        cout << "\n===== INVENTORY FILE SYSTEM =====";
+        cout << "\n1. Add Record";
+        cout << "\n2. Display All Records";
+        cout << "\n3. Exit";
+        cout << "\nEnter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: writeRecord(); break;
+            case 2: readRecords(); break;
+            case 3: cout << "\nExiting...\n"; break;
+            default: cout << "\nInvalid choice!\n";
+        }
+    } while (choice != 3);
+
+    return 0;
+}
