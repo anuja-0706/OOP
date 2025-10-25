@@ -1,0 +1,147 @@
+#include <iostream>
+using namespace std;
+template <typename T>
+class SelectionSort {
+public:
+// Constructor to initialize the array and its size 
+SelectionSort(T arr[], int size);
+// Function to perform the selection sort 
+void sort();
+// Function to print the array 
+
+    void printArray();
+
+
+private:
+
+    T* arr;  // Pointer to the array  
+
+    int size;  // Size of the array  
+
+};
+
+
+// Constructor definition outside the class   
+
+template <typename T>
+
+SelectionSort<T>::SelectionSort(T arr[], int size) {
+
+    this->arr = arr;  
+
+    this->size = size; 
+
+}
+
+
+// Sort function definition outside the class                                         
+
+template <typename T>
+
+void SelectionSort<T>::sort() {
+
+    for (int i = 0; i < size - 1; ++i) {
+
+        int minIndex = i;
+
+        for (int j = i + 1; j < size; ++j) {
+
+            if (arr[j] < arr[minIndex]) {
+
+                minIndex = j;
+
+            }
+
+        }
+
+        if (minIndex != i) {
+
+            T temp = arr[i];
+
+            arr[i] = arr[minIndex];
+
+            arr[minIndex] = temp;
+
+        }
+
+    }
+
+}
+
+
+// Print array function definition outside the class
+
+template <typename T>
+
+void SelectionSort<T>::printArray() {
+
+    for (int i = 0; i < size; ++i) {
+
+        cout << arr[i] << " ";
+
+    }
+
+    cout << endl;
+
+}
+
+
+int main() {
+
+    // Example for integers   
+
+    int arrInt[] = {64, 25, 12, 22, 11};
+
+    int sizeInt = sizeof(arrInt) / sizeof(arrInt[0]);
+
+
+    // Create a SelectionSort object   
+
+    SelectionSort<int> sortInt(arrInt, sizeInt);
+
+
+    cout << "Before sorting: ";
+
+    sortInt.printArray();
+
+
+    sortInt.sort();
+
+
+    cout << "After sorting: ";
+
+    sortInt.printArray();
+
+
+    // Example for floating-point numbers  
+
+    float arrFloat[] = {64.5, 25.2, 12.7, 22.4, 11.9};
+
+    int sizeFloat = sizeof(arrFloat) / sizeof(arrFloat[0]);
+
+
+    // Create a SelectionSort object  
+
+    SelectionSort<float> sortFloat(arrFloat, sizeFloat);
+
+
+    cout << "Before sorting: ";
+
+    sortFloat.printArray();
+
+
+    sortFloat.sort();
+
+
+    cout << "After sorting: ";
+
+    sortFloat.printArray();
+return 0;
+}
+
+
+
+
+
+
+
